@@ -12,9 +12,11 @@ export const sendEmail = async ({ email, emailStatus, userId }: any) => {
         verifyTokenExpiry: Date.now() + 3600000,
       });
     } else if (emailStatus === "RESET") {
-      await User.findByIdAndUpdate(userId, {
-        forgetPasswordToken: hashedToken,
-        forgetPasswordTokenExpiry: Date.now() + 3600000,
+      const updatedUser = await User.findByIdAndUpdate(userId, {
+        $set: {
+          forgetPasswordToken: hashedToken,
+          forgetPasswordTokenExpiry: Date.now() + 3600000,
+        },
       });
     }
 
@@ -27,7 +29,9 @@ export const sendEmail = async ({ email, emailStatus, userId }: any) => {
       },
     });
     const emailContent = `
-  <p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">${emailStatus === "VERIFY" ? "verify your email" : "reset your password"}</a> 
+  <p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">${
+      emailStatus === "VERIFY" ? "verify your email" : "reset your password"
+    }</a> 
   or copy and paste the link below into your browser:</p>
   <br>${process.env.DOMAIN}/verifyemail?token=${hashedToken}
 `;
@@ -37,7 +41,7 @@ export const sendEmail = async ({ email, emailStatus, userId }: any) => {
       to: email,
       subject:
         emailStatus === "VERIFY" ? "Verify Your Email" : "Reset Your Password",
-      html:emailContent
+      html: emailContent,
     };
 
     const mailResponse = await transporter.sendMail(mailOption);
