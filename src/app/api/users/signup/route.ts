@@ -9,7 +9,7 @@ connectDb()
 export async function POST(request:NextRequest){
     try{
        const reqBody =  await request.json()
-       const {userName,email,password} = reqBody;
+       const {username,email,password} = reqBody;
 
        console.log(reqBody);
 
@@ -23,7 +23,7 @@ export async function POST(request:NextRequest){
        const hashedPassword = bcryptjs.hashSync(password, salt);
 
        const newUser = new User({
-        userName,
+        username,
         email,
         password:hashedPassword
        })
