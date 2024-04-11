@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 export default function ProfilePage() {
   const router = useRouter();
   const [userData, setUserData] = useState({ id: "", name: "Nothing" });
+  const [loading, setLoading] = useState(false);
+
   const logout = async () => {
     try {
       await axios.get("/api/users/logout");
@@ -23,7 +25,7 @@ export default function ProfilePage() {
     const res = await axios.get("/api/users/me");
     console.log(res.data);
     const { _id, username } = res.data.data;
-    setUserData({ id: _id, name : username });
+    setUserData({ id: _id, name: username });
   };
 
   return (
@@ -51,8 +53,9 @@ export default function ProfilePage() {
           <button
             onClick={getUserDetails}
             className="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+            disabled={loading} // Disable the button while data is being fetched
           >
-            Get User Details
+            {loading ? "Fetching..." : "Get User Details"}
           </button>
         </div>
       </div>
