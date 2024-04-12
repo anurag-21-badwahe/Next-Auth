@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from "axios";
 
 interface Employee {
   id: number;
@@ -15,9 +16,36 @@ interface Employee {
 
 const EmployeeTable: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([
-    { id: 1, name: 'John Doe', email: 'john@example.com', salary: 50000, joiningDate: '2023-01-01', status: 'Active' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', salary: 60000, joiningDate: '2022-12-15', status: 'Inactive' },
   ]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get('/api/employee/getemployee');
+        console.log(response);
+        // Access the data array from the response
+        const responseData = response.data.data;
+        // Map the response data to transform it into the Employee interface
+        const transformedData = responseData.map((employee: any, index: number) => ({
+          id: index + 1, 
+          name: employee.name,
+          email: employee.email,
+          salary: employee.salary,
+          joiningDate: new Date(employee.joiningDate).toISOString().split('T')[0],
+          status: employee.status,
+        }));
+        setEmployees(transformedData);
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+  
+    fetchEmployees();
+  }, []);
+  
+  
+  
+
   const [isAddingEmployee, setIsAddingEmployee] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editEmployeeId, setEditEmployeeId] = useState<number | null>(null);
@@ -38,7 +66,9 @@ const EmployeeTable: React.FC = () => {
   };
 
   const handleEdit = (id: number) => {
-    const employeeToEdit = employees.find(employee => employee.id === id);
+    // const employeeToEdit = employees.find(employee => employee.id === id);
+    const employeeToEdit = employees.find(employee => employee._id.$oid === id);
+
   
     if (employeeToEdit) {
       setNewEmployeeData({
