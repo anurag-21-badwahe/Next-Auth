@@ -1,5 +1,5 @@
-
 "use client"
+
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ interface Employee {
   status: string;
 }
 
-const EmployeeTable = () => {
+const EmployeeTable: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([
     { id: 1, name: 'John Doe', email: 'john@example.com', salary: 50000, joiningDate: '2023-01-01', status: 'Active' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', salary: 60000, joiningDate: '2022-12-15', status: 'Inactive' },
@@ -37,34 +37,14 @@ const EmployeeTable = () => {
     setNewEmployeeData({ id: 0, name: '', email: '', salary: 0, joiningDate: '', status: 'Active' });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewEmployeeData({
-      ...newEmployeeData,
-      [name]: value
-    });
-  };
-
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setNewEmployeeData({
-      ...newEmployeeData,
-      status: value
-    });
-  };
-
   const handleEdit = (id: number) => {
-    // Find the employee with the given id
     const employeeToEdit = employees.find(employee => employee.id === id);
   
-    // Check if the employee exists
     if (employeeToEdit) {
-      // Set the form data with the employee's details
       setNewEmployeeData({
         ...employeeToEdit
       });
   
-      // Set editing mode and the id of the employee being edited
       setIsEditing(true);
       setEditEmployeeId(id);
       setIsAddingEmployee(true);
@@ -73,22 +53,19 @@ const EmployeeTable = () => {
     }
   };
   
-  const handleSaveEdit = () => {
-    // Update the employee's details in the employees array
+  const handleSaveEdit = (values: Employee) => {
     const updatedEmployees = employees.map(employee => {
       if (employee.id === editEmployeeId) {
         return {
           ...employee,
-          ...newEmployeeData
+          ...values
         };
       }
       return employee;
     });
 
-    // Update the state with the updated employees array
     setEmployees(updatedEmployees);
 
-    // Reset the form data and toggle the form visibility
     setNewEmployeeData({id : 0, name: '', email: '', salary: 0, joiningDate: '', status: 'Active' });
     setIsEditing(false);
     setIsAddingEmployee(false);
@@ -121,21 +98,9 @@ const EmployeeTable = () => {
             joiningDate: Yup.date().required('Joining date is required'),
             status: Yup.string().required('Status is required'),
           })}
-          // onSubmit={(values, { resetForm }) => {
-          //   if (isEditing) {
-          //     handleSaveEdit();
-          //   } else {
-          //     const id = employees.length > 0 ? employees[employees.length - 1].id + 1 : 1;
-          //     const newEmployee = { ...values, id };
-          //     setEmployees([...employees, newEmployee]);
-          //     resetForm();
-          //     toggleAddEmployeeForm();
-          //   }
-          // }}
           onSubmit={(values, { resetForm }) => {
             if (isEditing) {
-              console.log("Edit called")
-              handleSaveEdit();
+              handleSaveEdit(values);
             } else {
               const id = employees.length > 0 ? employees[employees.length - 1].id + 1 : 1;
               const newEmployee = { ...values, id };
@@ -144,7 +109,6 @@ const EmployeeTable = () => {
               toggleAddEmployeeForm();
             }
           }}
-          
         >
           {({ errors, touched }) => (
             <Form>
