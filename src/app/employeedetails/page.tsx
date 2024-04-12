@@ -6,6 +6,7 @@ import ReactLoading from "react-loading";
 import * as Yup from "yup";
 import axios from "axios";
 
+
 interface Employee {
   id: number;
   name: string;
@@ -116,6 +117,32 @@ const EmployeeTable: React.FC = () => {
     setIsEditing(false);
     setIsAddingEmployee(false);
   };
+  
+  const handleAddEmployee = async (values: Employee) => {
+    try {
+      // Make a POST request to add the new employee
+      const response = await axios.post('/api/employee/addemployee', values);
+      console.log("Adding Employee")
+      alert("Employee Added Succesfully")
+      console.log(response)
+      // Update the local state with the newly added employee
+      setEmployees([...employees, response.data]);
+      handleAddEmployee(values);
+      // Reset form and toggle form visibility
+      setNewEmployeeData({
+        id: 0,
+        name: "",
+        email: "",
+        salary: 0,
+        joiningDate: "",
+        status: "Active",
+      });
+      setIsAddingEmployee(false);
+    } catch (error) {
+      // alert("Something Went Wrong With Data")
+      console.error('Error adding employee:', error);
+    }
+  };
 
   const handleDelete = (id: number) => {
     const updatedEmployees = employees.filter((employee) => employee.id !== id);
@@ -164,6 +191,7 @@ const EmployeeTable: React.FC = () => {
               setEmployees([...employees, newEmployee]);
               resetForm();
               toggleAddEmployeeForm();
+              handleAddEmployee(values);
             }
           }}
         >
