@@ -1,7 +1,9 @@
 import { connectDb } from "@/dbConfig/dbConfig";
 import Employee from "@/models/employeeModel";
 import { NextRequest, NextResponse } from "next/server";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
+// import { useRouter } from "next/router";
 
 connectDb();
 

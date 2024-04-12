@@ -77,31 +77,8 @@ const EmployeeTable: React.FC = () => {
       status: "Active",
     });
   };
-  const handleUpdateEmployee = async () => {
-    try {
-      const response = await axios.put(`/api/employees/${editEmployeeId}`, newEmployeeData);
-      console.log('Employee updated successfully:', response.data);
-      // Optionally, you can fetch employees again to update the list after editing
-      // fetchEmployees();
-      // Reset state and flags
-      setNewEmployeeData({
-        id: 0,
-        name: '',
-        email: '',
-        salary: 0,
-        joiningDate: "",
-        status: '',
-      });
-      setIsEditing(false);
-      setEditEmployeeId(null);
-      setIsAddingEmployee(false);
-    } catch (error) {
-      console.error('Error updating employee:', error);
-    }
-  };
-
+  
   const handleEdit = (id: number) => {
-    // const employeeToEdit = employees.find(employee => employee.id === id);
     const employeeToEdit = employees.find((employee) => employee.id === id);
 
     if (employeeToEdit) {
