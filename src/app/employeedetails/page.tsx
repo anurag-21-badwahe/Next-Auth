@@ -5,7 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 import axios from "axios";
-
+import addEmp from "../../../public/addEmp.png";
+import editIcon from "../../../public/editIcon.png";
+import deleteIcon from "../../../public/deleteIcon.png";
 
 interface Employee {
   id: number;
@@ -117,14 +119,14 @@ const EmployeeTable: React.FC = () => {
     setIsEditing(false);
     setIsAddingEmployee(false);
   };
-  
+
   const handleAddEmployee = async (values: Employee) => {
     try {
       // Make a POST request to add the new employee
-      const response = await axios.post('/api/employee/addemployee', values);
-      console.log("Adding Employee")
-      alert("Employee Added Succesfully")
-      console.log(response)
+      const response = await axios.post("/api/employee/addemployee", values);
+      console.log("Adding Employee");
+      alert("Employee Added Succesfully");
+      console.log(response);
       // Update the local state with the newly added employee
       setEmployees([...employees, response.data]);
       handleAddEmployee(values);
@@ -140,7 +142,7 @@ const EmployeeTable: React.FC = () => {
       setIsAddingEmployee(false);
     } catch (error) {
       // alert("Something Went Wrong With Data")
-      console.error('Error adding employee:', error);
+      console.error("Error adding employee:", error);
     }
   };
 
@@ -154,8 +156,9 @@ const EmployeeTable: React.FC = () => {
       return (
         <button
           onClick={toggleAddEmployeeForm}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-4"
+          className="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mb-4 flex items-center"
         >
+          <img src={addEmp.src} alt="Github Icon" className="w-6 h-6 mr-2" />
           Add New Employee
         </button>
       );
@@ -299,15 +302,17 @@ const EmployeeTable: React.FC = () => {
         <td className="text-center">
           <button
             onClick={() => handleEdit(employee.id)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded-md mr-2"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-1 rounded-md mr-2"
           >
-            Edit
+            <img src={editIcon.src} alt="Edit Icon" className="w-6 h-6 mr-2" />
+          {/* Add New Employee */}
+        
           </button>
           <button
             onClick={() => handleDelete(employee.id)}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded-md"
+            className="bg-white hover:bg-red-300 text-white font-semibold py-1 px-2 rounded-md"
           >
-            Delete
+           <img src={deleteIcon.src} alt="Edit Icon" className="w-6 h-6 mr-2" />
           </button>
         </td>
       </tr>
