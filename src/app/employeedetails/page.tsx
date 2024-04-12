@@ -104,7 +104,7 @@ const EmployeeTable = () => {
   const renderAddEmployeeForm = () => {
     if (!isAddingEmployee) {
       return (
-        <button onClick={toggleAddEmployeeForm} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-4 bg-blue-400 ">
+        <button onClick={toggleAddEmployeeForm} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-4 ">
           Add New Employee
         </button>
       );
@@ -121,7 +121,7 @@ const EmployeeTable = () => {
         <input type="date" name="joiningDate" placeholder="Joining Date" value={newEmployeeData.joiningDate} onChange={handleInputChange} className="block w-full border border-gray-300 rounded-md p-2 mb-2" />
         <div className="mb-2">
           <span className="mr-2">Status:</span>
-          <label className="inline-flex items-center mr-4">
+          <label className="inline-flex items-center mr-4 text-center">
             <input type="radio" name="status" value="Active" checked={newEmployeeData.status === 'Active'} onChange={handleRadioChange} className="form-radio h-5 w-5 text-blue-600" />
             <span className="ml-2">Active</span>
           </label>
@@ -143,11 +143,11 @@ const EmployeeTable = () => {
   const renderEmployees = () => {
     return employees.map(employee => (
       <tr key={employee.id}>
-        <td>{employee.name}</td>
-        <td>{employee.email}</td>
-        <td>${employee.salary}</td>
-        <td>{employee.joiningDate}</td>
-        <td>{employee.status}</td>
+        <td className='text-center'>{employee.name}</td>
+        <td className='text-center'>{employee.email}</td>
+        <td className='text-center'>${employee.salary}</td>
+        <td className='text-center'>{employee.joiningDate}</td>
+        <td className='text-center'>{employee.status}</td>
         <td className='text-center'>
           <button onClick={() => handleEdit(employee.id)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded-md mr-2">Edit</button>
           <button onClick={() => handleDelete(employee.id)} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded-md">Delete</button>
