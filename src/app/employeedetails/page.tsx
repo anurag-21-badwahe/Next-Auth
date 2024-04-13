@@ -126,8 +126,11 @@ const EmployeeTable: React.FC = () => {
     const index = employees.findIndex(employee => employee._id === editEmployeeId)
 
     if(index > 0){
-      cons
+      const updatedEmployees = [...employees];
+      updatedEmployees[index] = {...updatedEmployees[index],...values};
+      setEmployees(updatedEmployees)
     }
+    alert("Data Updated Succesfully")
 
     setNewEmployeeData({
       id: 0,
@@ -148,7 +151,7 @@ const EmployeeTable: React.FC = () => {
       const response = await axios.post("/api/employee/addemployee", values);
 
       console.log("Adding Employee");
-      alert("Employee Added Succesfully");
+     
       console.log(response);
       // pdate the local state with the newly added employee
       setEmployees([...employees, response.data]);
@@ -163,6 +166,7 @@ const EmployeeTable: React.FC = () => {
         joiningDate: "",
         status: "Active",
       });
+      alert("Employee Added Succesfully");
       setIsAddingEmployee(false);
     } catch (error) {
       // alert("Something Went Wrong With Data")
