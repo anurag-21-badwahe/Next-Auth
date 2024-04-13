@@ -1,9 +1,9 @@
 import { connectDb } from "@/dbConfig/dbConfig";
 import Employee from "@/models/employeeModel";
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 // import { useNavigation } from "next/navigation";
-import { useParams } from "next/navigation";
+// import { useParams } from "next/navigation";
 
 connectDb();
 

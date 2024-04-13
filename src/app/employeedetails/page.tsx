@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
@@ -7,10 +8,11 @@ import axios from "axios";
 import addEmp from "../../../public/addEmp.png";
 import editIcon from "../../../public/editIcon.png";
 import deleteIcon from "../../../public/deleteIcon.png";
+import ProfileIcon from "../../../public/profile.png";
 
 interface Employee {
   id: number;
-  _id:string;
+  _id: string;
   name: string;
   email: string;
   salary: number;
@@ -27,16 +29,16 @@ const EmployeeTable: React.FC = () => {
       try {
         const response = await axios.get("/api/employee/getemployee");
         console.log(response);
-        
+
         // Access the data array from the response
         const responseData = response.data.data;
-        if(responseData.length === 0){
-          alert("No Employee is Found in the database")
+        if (responseData.length === 0) {
+          alert("No Employee is Found in the database");
         }
         const transformedData = responseData.map(
           (employee: any, index: number) => ({
             id: index + 1,
-            _id : employee._id,
+            _id: employee._id,
             name: employee.name,
             email: employee.email,
             salary: employee.salary,
@@ -58,10 +60,12 @@ const EmployeeTable: React.FC = () => {
 
   const [isAddingEmployee, setIsAddingEmployee] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editEmployeeId, setEditEmployeeId] = useState<number | string | null>(null) ;
+  const [editEmployeeId, setEditEmployeeId] = useState<number | string | null>(
+    null
+  );
   const [newEmployeeData, setNewEmployeeData] = useState<Employee>({
     id: 0,
-    _id:"",
+    _id: "",
     name: "",
     email: "",
     salary: 0,
@@ -75,7 +79,7 @@ const EmployeeTable: React.FC = () => {
     setEditEmployeeId(null);
     setNewEmployeeData({
       id: 0,
-      _id:"",
+      _id: "",
       name: "",
       email: "",
       salary: 0,
@@ -83,11 +87,10 @@ const EmployeeTable: React.FC = () => {
       status: "Active",
     });
   };
-  
+
   const handleEdit = (id: string) => {
     const employeeToEdit = employees.find((employee) => employee._id === id);
-    console.log("id",id);
-    
+    console.log("id", id);
 
     if (employeeToEdit) {
       setNewEmployeeData({
@@ -102,15 +105,15 @@ const EmployeeTable: React.FC = () => {
     }
   };
 
-  const handleSaveEdit = async(values: Employee) => {
-    console.log(editEmployeeId)
-    const response = await axios.put("/api/employee/updateemployee", values,{
-      params:{
-        id:editEmployeeId
-      }
+  const handleSaveEdit = async (values: Employee) => {
+    console.log(editEmployeeId);
+    const response = await axios.put("/api/employee/updateemployee", values, {
+      params: {
+        id: editEmployeeId,
+      },
     });
 
-    console.log("Edited Response",response)
+    console.log("Edited Response", response);
     // const updatedEmployees = employees.map((employee) => {
     //   if (employee._id === editEmployeeId) {
     //     return {
@@ -123,18 +126,20 @@ const EmployeeTable: React.FC = () => {
 
     // setEmployees(updatedEmployees);
 
-    const index = employees.findIndex(employee => employee._id === editEmployeeId)
+    const index = employees.findIndex(
+      (employee) => employee._id === editEmployeeId
+    );
 
-    if(index > 0){
+    if (index > 0) {
       const updatedEmployees = [...employees];
-      updatedEmployees[index] = {...updatedEmployees[index],...values};
-      setEmployees(updatedEmployees)
+      updatedEmployees[index] = { ...updatedEmployees[index], ...values };
+      setEmployees(updatedEmployees);
     }
-    alert("Data Updated Succesfully")
+    alert("Data Updated Succesfully");
 
     setNewEmployeeData({
       id: 0,
-      _id:"",
+      _id: "",
       name: "",
       email: "",
       salary: 0,
@@ -151,7 +156,7 @@ const EmployeeTable: React.FC = () => {
       const response = await axios.post("/api/employee/addemployee", values);
 
       console.log("Adding Employee");
-     
+
       console.log(response);
       // pdate the local state with the newly added employee
       setEmployees([...employees, response.data]);
@@ -159,7 +164,7 @@ const EmployeeTable: React.FC = () => {
       // Reset form and toggle form visibility
       setNewEmployeeData({
         id: 0,
-        _id:"",
+        _id: "",
         name: "",
         email: "",
         salary: 0,
@@ -174,9 +179,39 @@ const EmployeeTable: React.FC = () => {
     }
   };
 
-  const handleDelete = (id: number) => {
-    const updatedEmployees = employees.filter((employee) => employee.id !== id);
-    setEmployees(updatedEmployees);
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await axios.delete(`/api/employee/deleteemployee`, {
+        params: {
+          id: id,
+        },
+      });
+
+      console.log("Delete Response:", response);
+
+      const updatedEmployees = employees.filter(
+        (employee) => employee._id !== id
+      );
+      setEmployees(updatedEmployees);
+
+      // Reset any necessary states
+      setIsEditing(false);
+      setIsAddingEmployee(false);
+      setNewEmployeeData({
+        id: 0,
+        _id: "",
+        name: "",
+        email: "",
+        salary: 0,
+        joiningDate: "",
+        status: "Active",
+      });
+
+      alert("Employee Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+      alert("Error deleting employee. Please try again.");
+    }
   };
 
   const renderAddEmployeeForm = () => {
@@ -319,9 +354,9 @@ const EmployeeTable: React.FC = () => {
   };
 
   const renderEmployees = () => {
-    return employees.map((employee,index) => (
+    return employees.map((employee, index) => (
       <tr key={employee._id}>
-        <td className="text-center">{index+1}.</td>
+        <td className="text-center">{index + 1}.</td>
         <td className="text-center">{employee.name}</td>
         <td className="text-center">{employee.email}</td>
         <td className="text-center">₹{employee.salary}</td>
@@ -333,14 +368,17 @@ const EmployeeTable: React.FC = () => {
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-1 rounded-md mr-2"
           >
             <img src={editIcon.src} alt="Edit Icon" className="w-6 h-6 mr-2" />
-          {/* Add New Employee */}
-        
+            {/* Add New Employee */}
           </button>
           <button
-            onClick={() => handleDelete(employee.id)}
+            onClick={() => handleDelete(employee._id)}
             className="bg-white hover:bg-red-300 text-white font-semibold py-1 px-2 rounded-md"
           >
-           <img src={deleteIcon.src} alt="Edit Icon" className="w-6 h-6 mr-2" />
+            <img
+              src={deleteIcon.src}
+              alt="Edit Icon"
+              className="w-6 h-6 mr-2"
+            />
           </button>
         </td>
       </tr>
@@ -348,7 +386,15 @@ const EmployeeTable: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4">
+      <nav className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 my-2 flex justify-between items-center">
+      <div className="font-bold text-xl">WorkFlowX</div>
+      <div>
+        <Link href="/profile">
+        <img src={ProfileIcon.src} alt="Profile Icon" className="w-10 h-10 mr-4" />
+        </Link>
+      </div>
+    </nav>
       {renderAddEmployeeForm()}
       <h2 className="text-xl font-semibold mb-4">Employee List</h2>
       {loading ? (

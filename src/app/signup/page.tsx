@@ -52,6 +52,7 @@ export default function SignupPage() {
       router.push("/login"); // Use router.push for redirection
     } catch (error: any) {
       console.error("Signup failed", error.message);
+      alert("User Already Exits")
       toast.error(error.message);
     } finally {
       setLoading(false);
@@ -147,7 +148,7 @@ export default function SignupPage() {
                 {loading ? "Processing..." : "Submit"}
               </button>
 
-              <div className="text-center">-------------or-------------</div>
+              {/* <div className="text-center">-------------or-------------</div>
 
               <div className="flex justify-between">
                 <button className="bg-white py-2 px-4 rounded-md hover:bg-blue-100 w-1/2 mr-2 flex items-center justify-center">
@@ -164,7 +165,7 @@ export default function SignupPage() {
                     className="w-6 h-6 mr-2"
                   />
                 </button>
-              </div>
+              </div> */}
               <div className="text-center text-blue-700 hover:bg-blue-100">
                 <Link href="/login">Already have Account ? Login</Link>
               </div>

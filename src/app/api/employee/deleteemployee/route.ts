@@ -9,10 +9,17 @@ connectDb();
 
 export async function DELETE(request: NextRequest) {
   try {
-    const router = useRouter();
-    const { id } = router.query;
+    console.log("Delete request params", request.nextUrl.searchParams);
 
-    const employee = await Employee.findById(id);
+    const empId = request.nextUrl.searchParams.get("id") as string | undefined;
+    if (!empId) {
+      return NextResponse.json(
+        { error: "Employee Id is required" },
+        { status: 404 }
+      );
+    }
+
+    const employee = await Employee.findById(empId);
 
     if (!employee) {
       return NextResponse.json(
@@ -21,7 +28,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    await employee.remove();
+    const deletedEmployee = await employee.deleteOne();
 
     return NextResponse.json({ message: "Employee deleted successfully", success: true });
   } catch (error: any) {
