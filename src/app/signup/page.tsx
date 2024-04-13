@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { FormikHelpers } from "formik";
 import googleIcon from "../../../public/googleIcon.png";
 import githubIcon from "../../../public/githubIcon.png";
+// import Component from "../components/Component";
+// import SessionWrapper from "../components/SessionWrapper";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -44,7 +46,8 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const response = await axios.post("/api/users/signup", values);
-      console.log("Signup success", response.data);
+      // console.log("Signup success", response.data);
+      alert("Signup Successfull")
       // Redirect to login page after successful signup
       router.push("/login"); // Use router.push for redirection
     } catch (error: any) {
@@ -57,6 +60,7 @@ export default function SignupPage() {
   };
 
   return (
+    // <SessionWrapper>
     <div className="flex justify-center items-center h-screen">
       <div className="max-w-md w-full">
         <h2 className="text-center text-3xl font-semibold mb-4">Sign Up</h2>
@@ -169,5 +173,6 @@ export default function SignupPage() {
         </Formik>
       </div>
     </div>
+    // </SessionWrapper>
   );
 }

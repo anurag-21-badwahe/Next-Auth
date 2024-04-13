@@ -1,12 +1,15 @@
 import { connectDb } from "@/dbConfig/dbConfig";
 import Employee from "@/models/employeeModel";
 import { NextRequest, NextResponse } from "next/server";
+import { getDataFromToken } from "@/utils/getDataFromToken";
 
 connectDb();
 
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
+    const userId = await getDataFromToken(request);
+    console.log("Create User Id",userId);    
     const { name, email, salary, joiningDate, status } = reqBody;
 
     console.log(reqBody);
@@ -26,7 +29,9 @@ export async function POST(request: NextRequest) {
       salary,
       joiningDate,
       status,
+      userId
     });
+    
 
     const savedEmployee = await newEmployee.save();
     console.log(savedEmployee);
