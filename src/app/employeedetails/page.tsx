@@ -9,6 +9,7 @@ import addEmp from "../../../public/addEmp.png";
 import editIcon from "../../../public/editIcon.png";
 import deleteIcon from "../../../public/deleteIcon.png";
 import ProfileIcon from "../../../public/profile.png";
+import Image from "next/image";
 
 interface Employee {
   id: number;
@@ -221,7 +222,13 @@ const EmployeeTable: React.FC = () => {
           onClick={toggleAddEmployeeForm}
           className="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mb-4 flex items-center"
         >
-          <img src={addEmp.src} alt="Add Icon" className="w-6 h-6 mr-2" />
+          <Image
+            src={addEmp.src}
+            alt="Add Icon"
+            className="w-6 h-6 mr-2"
+            width={6}
+            height={6}
+          />
           Add New Employee
         </button>
       );
@@ -367,17 +374,25 @@ const EmployeeTable: React.FC = () => {
             onClick={() => handleEdit(employee._id)}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-1 rounded-md mr-2"
           >
-            <img src={editIcon.src} alt="Edit Icon" className="w-6 h-6 mr-2" />
+            <Image
+              src={editIcon.src}
+              alt="Edit Icon"
+              className="w-6 h-6 mr-2"
+              width={6}
+              height={6}
+            />
             {/* Add New Employee */}
           </button>
           <button
             onClick={() => handleDelete(employee._id)}
             className="bg-white hover:bg-red-300 text-white font-semibold py-1 px-2 rounded-md"
           >
-            <img
+            <Image
               src={deleteIcon.src}
               alt="Edit Icon"
               className="w-6 h-6 mr-2"
+              height= {6}
+              width= {6}
             />
           </button>
         </td>
@@ -388,13 +403,17 @@ const EmployeeTable: React.FC = () => {
   return (
     <div className="container mx-auto px-4">
       <nav className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 my-2 flex justify-between items-center">
-      <div className="font-bold text-xl">WorkFlowX</div>
-      <div>
-        <Link href="/profile">
-        <img src={ProfileIcon.src} alt="Profile Icon" className="w-10 h-10 mr-4" />
-        </Link>
-      </div>
-    </nav>
+        <div className="font-bold text-xl">WorkFlowX</div>
+        <div>
+          <Link href="/profile">
+            <img
+              src={ProfileIcon.src}
+              alt="Profile Icon"
+              className="w-10 h-10 mr-4"
+            />
+          </Link>
+        </div>
+      </nav>
       {renderAddEmployeeForm()}
       <h2 className="text-xl font-semibold mb-4">Employee List</h2>
       {loading ? (
