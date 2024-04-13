@@ -406,10 +406,12 @@ const EmployeeTable: React.FC = () => {
         <div className="font-bold text-xl">WorkFlowX</div>
         <div>
           <Link href="/profile">
-            <img
+            <Image
               src={ProfileIcon.src}
               alt="Profile Icon"
               className="w-10 h-10 mr-4"
+              width={10}
+              height={10}
             />
           </Link>
         </div>
