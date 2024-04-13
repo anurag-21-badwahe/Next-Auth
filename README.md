@@ -64,6 +64,13 @@ Welcome to the Employee Management App! This application, built with Next.js, al
 - **Data Encryption**: Use encryption techniques to secure sensitive employee information stored in the database.
 - **Input Validation**: Validate user input to prevent common security vulnerabilities such as SQL injection and cross-site scripting (XSS) attacks.
 
+
+
+## Live Demo
+
+Access the live application [here](https://workflow-x.vercel.app/).
+
+
 ## Contributing
 
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request.
