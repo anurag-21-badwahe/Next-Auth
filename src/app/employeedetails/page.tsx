@@ -274,7 +274,7 @@ const EmployeeTable: React.FC = () => {
                 type="text"
                 name="name"
                 placeholder="Name"
-                className="block w-full border border-gray-300 rounded-md p-2 mb-2"
+                className="block w-full border border-gray-300 text-black rounded-md p-2 mb-2"
               />
               <ErrorMessage
                 name="name"
@@ -286,7 +286,7 @@ const EmployeeTable: React.FC = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="block w-full border border-gray-300 rounded-md p-2 mb-2"
+                className="block w-full border text-black border-gray-300 rounded-md p-2 mb-2"
               />
               <ErrorMessage
                 name="email"
@@ -298,7 +298,7 @@ const EmployeeTable: React.FC = () => {
                 type="number"
                 name="salary"
                 placeholder="Salary"
-                className="block w-full border border-gray-300 rounded-md p-2 mb-2"
+                className="block w-full border text-black border-gray-300 rounded-md p-2 mb-2"
               />
               <ErrorMessage
                 name="salary"
@@ -310,7 +310,7 @@ const EmployeeTable: React.FC = () => {
                 type="date"
                 name="joiningDate"
                 placeholder="Joining Date"
-                className="block w-full border border-gray-300 rounded-md p-2 mb-2"
+                className="block w-full border text-black border-gray-300 rounded-md p-2 mb-2"
               />
               <ErrorMessage
                 name="joiningDate"

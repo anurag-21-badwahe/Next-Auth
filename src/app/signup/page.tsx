@@ -83,7 +83,7 @@ export default function SignupPage() {
                   id="userName"
                   name="username"
                   type="text"
-                  className={`form-input w-full px-4 py-2 rounded-md border border-gray-300 ${
+                  className={`form-input w-full px-4 py-2 rounded-md border text-black border-gray-300 ${
                     formik.errors.username ? "border-red-500" : ""
                   }`}
                 />
@@ -105,7 +105,7 @@ export default function SignupPage() {
                   id="email"
                   name="email"
                   type="email"
-                  className={`form-input w-full px-4 py-2 rounded-md border border-gray-300 ${
+                  className={`form-input w-full px-4 py-2 rounded-md border text-black border-gray-300 ${
                     formik.errors.email ? "border-red-500" : ""
                   }`}
                 />
@@ -127,7 +127,7 @@ export default function SignupPage() {
                   id="password"
                   name="password"
                   type="password"
-                  className={`form-input w-full px-4 py-2 rounded-md border border-gray-300 ${
+                  className={`form-input w-full px-4 py-2 rounded-md border text-black border-gray-300 ${
                     formik.errors.password ? "border-red-500" : ""
                   }`}
                 />
