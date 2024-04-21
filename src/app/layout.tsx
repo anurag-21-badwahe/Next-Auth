@@ -18,7 +18,7 @@ export default function RootLayout({ children }:any) {
   return (
     <html lang="en">
       <SessionWrapper>
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} width:w-full`} >{children}</body>
         {/* <Component/> */}
       </SessionWrapper>
     </html>

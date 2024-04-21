@@ -24,6 +24,8 @@ interface Employee {
 const EmployeeTable: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isData, setIsData] = useState<boolean>(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -35,6 +37,7 @@ const EmployeeTable: React.FC = () => {
         const responseData = response.data.data;
         if (responseData.length === 0) {
           alert("No Employee is Found in the database");
+          setIsData(false);
         }
         const transformedData = responseData.map(
           (employee: any, index: number) => ({
@@ -87,6 +90,7 @@ const EmployeeTable: React.FC = () => {
       joiningDate: "",
       status: "Active",
     });
+   
   };
 
   const handleEdit = (id: string) => {
@@ -156,11 +160,15 @@ const EmployeeTable: React.FC = () => {
       // Make a POST request to add the new employee
       const response = await axios.post("/api/employee/addemployee", values);
 
+      if (response.status === 400) {
+        alert(response.data.message);
+        return;
+      }
+
       console.log("Adding Employee");
 
       console.log(response);
-      // pdate the local state with the newly added employee
-      setEmployees([...employees, response.data]);
+
       // handleAddEmployee(values);
       // Reset form and toggle form visibility
       setNewEmployeeData({
@@ -173,6 +181,7 @@ const EmployeeTable: React.FC = () => {
         status: "Active",
       });
       alert("Employee Added Succesfully");
+      setEmployees([...employees, response.data]);
       setIsAddingEmployee(false);
     } catch (error) {
       // alert("Something Went Wrong With Data")
@@ -181,6 +190,7 @@ const EmployeeTable: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
+    alert("Deleting Employees");
     try {
       const response = await axios.delete(`/api/employee/deleteemployee`, {
         params: {
@@ -253,6 +263,18 @@ const EmployeeTable: React.FC = () => {
             status: Yup.string().required("Status is required"),
           })}
           onSubmit={(values, { resetForm }) => {
+            const { email } = values;
+
+            const emailExists = employees.some(
+              (employee) => employee.email === email
+            );
+
+            if (emailExists) {
+              alert(
+                "This email already exists. Please provide a different email."
+              );
+              return;
+            }
             if (isEditing) {
               handleSaveEdit(values);
             } else {
@@ -385,11 +407,17 @@ const EmployeeTable: React.FC = () => {
           </button>
           <button
             onClick={() => handleDelete(employee._id)}
-            className="bg-white hover:bg-red-300 text-white font-semibold py-1 px-2 rounded-md"
+            className="bg-white text-white font-semibold py-1 px-2 rounded-md relative"
+            disabled={deletingId === employee._id}
           >
+            {deletingId === employee._id && (
+              <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center">
+                <ReactLoading type="spin" color="red" />
+              </div>
+            )}
             <Image
               src={deleteIcon.src}
-              alt="Edit Icon"
+              alt="Delete Icon"
               className="w-6 h-6 mr-2"
               height={6}
               width={6}
@@ -420,26 +448,28 @@ const EmployeeTable: React.FC = () => {
       <div className="container mx-auto px-4">
         {renderAddEmployeeForm()}
         <h2 className="text-xl font-semibold mb-4">Employee List</h2>
-        {loading ? (
-          <div className="flex justify-center text-center">
-            <ReactLoading type="spin" color="blue" />
-            <p className="text-blue-500">Fetching Data from Databse.....</p>
+        <table className="w-full border-collapse border border-gray-800">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border px-4 py-2">Id</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Email</th>
+              <th className="border px-4 py-2">Salary</th>
+              <th className="border px-4 py-2">Joining Date</th>
+              <th className="border px-4 py-2">Status</th>
+              <th className="border px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{renderEmployees()}</tbody>
+        </table>
+        {!isData ? (
+          <div className="flex justify-center text-center bg-red-200 mt-4">
+            <p className="text-blue-500 text-center text-xl">
+              No Employee Added Yet
+            </p>
           </div>
         ) : (
-          <table className="w-full border-collapse border border-gray-800">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border px-4 py-2">Id</th>
-                <th className="border px-4 py-2">Name</th>
-                <th className="border px-4 py-2">Email</th>
-                <th className="border px-4 py-2">Salary</th>
-                <th className="border px-4 py-2">Joining Date</th>
-                <th className="border px-4 py-2">Status</th>
-                <th className="border px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>{renderEmployees()}</tbody>
-          </table>
+          ""
         )}
       </div>
     </>

@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     const employee = await Employee.findOne({ email });
 
     if (employee) {
+      console.error("Employee with this email already exits")
       return NextResponse.json(
         { error: "Employee Already Exits" },
         { status: 400 }
