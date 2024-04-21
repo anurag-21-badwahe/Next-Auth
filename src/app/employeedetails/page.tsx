@@ -391,8 +391,8 @@ const EmployeeTable: React.FC = () => {
               src={deleteIcon.src}
               alt="Edit Icon"
               className="w-6 h-6 mr-2"
-              height= {6}
-              width= {6}
+              height={6}
+              width={6}
             />
           </button>
         </td>
@@ -401,8 +401,8 @@ const EmployeeTable: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <nav className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 my-2 flex justify-between items-center">
+    <>
+      <nav className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 flex justify-between items-center min-w-10 mb-2 w-full">
         <div className="font-bold text-xl">WorkFlowX</div>
         <div>
           <Link href="/profile">
@@ -416,30 +416,33 @@ const EmployeeTable: React.FC = () => {
           </Link>
         </div>
       </nav>
-      {renderAddEmployeeForm()}
-      <h2 className="text-xl font-semibold mb-4">Employee List</h2>
-      {loading ? (
-        <div className="flex justify-center text-center">
-          <ReactLoading type="spin" color="blue" />
-          <p className="text-blue-500">Fetching Data from Databse.....</p>
-        </div>
-      ) : (
-        <table className="w-full border-collapse border border-gray-800">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border px-4 py-2">Id</th>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Salary</th>
-              <th className="border px-4 py-2">Joining Date</th>
-              <th className="border px-4 py-2">Status</th>
-              <th className="border px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderEmployees()}</tbody>
-        </table>
-      )}
-    </div>
+
+      <div className="container mx-auto px-4">
+        {renderAddEmployeeForm()}
+        <h2 className="text-xl font-semibold mb-4">Employee List</h2>
+        {loading ? (
+          <div className="flex justify-center text-center">
+            <ReactLoading type="spin" color="blue" />
+            <p className="text-blue-500">Fetching Data from Databse.....</p>
+          </div>
+        ) : (
+          <table className="w-full border-collapse border border-gray-800">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-4 py-2">Id</th>
+                <th className="border px-4 py-2">Name</th>
+                <th className="border px-4 py-2">Email</th>
+                <th className="border px-4 py-2">Salary</th>
+                <th className="border px-4 py-2">Joining Date</th>
+                <th className="border px-4 py-2">Status</th>
+                <th className="border px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderEmployees()}</tbody>
+          </table>
+        )}
+      </div>
+    </>
   );
 };
 
