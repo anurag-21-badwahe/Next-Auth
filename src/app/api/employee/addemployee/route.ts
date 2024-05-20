@@ -9,10 +9,10 @@ export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
     const userId = await getDataFromToken(request);
-    console.log("Create User Id",userId);    
+    // console.log("Create User Id",userId);    
     const { name, email, salary, joiningDate, status } = reqBody;
 
-    console.log(reqBody);
+    // console.log(reqBody);
 
     const employee = await Employee.findOne({ email });
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     
 
     const savedEmployee = await newEmployee.save();
-    console.log(savedEmployee);
+    // console.log(savedEmployee);
 
     return NextResponse.json({
         message:"Employee Added Successfully",

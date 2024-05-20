@@ -111,14 +111,14 @@ const EmployeeTable: React.FC = () => {
   };
 
   const handleSaveEdit = async (values: Employee) => {
-    console.log(editEmployeeId);
+    // console.log(editEmployeeId);
     const response = await axios.put("/api/employee/updateemployee", values, {
       params: {
         id: editEmployeeId,
       },
     });
 
-    console.log("Edited Response", response);
+    // console.log("Edited Response", response);
     // const updatedEmployees = employees.map((employee) => {
     //   if (employee._id === editEmployeeId) {
     //     return {
@@ -165,9 +165,9 @@ const EmployeeTable: React.FC = () => {
         return;
       }
 
-      console.log("Adding Employee");
+      // console.log("Adding Employee");
 
-      console.log(response);
+      // console.log(response);
 
       // handleAddEmployee(values);
       // Reset form and toggle form visibility
@@ -198,7 +198,7 @@ const EmployeeTable: React.FC = () => {
         },
       });
 
-      console.log("Delete Response:", response);
+      // console.log("Delete Response:", response);
 
       const updatedEmployees = employees.filter(
         (employee) => employee._id !== id

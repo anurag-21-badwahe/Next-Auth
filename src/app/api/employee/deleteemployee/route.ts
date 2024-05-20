@@ -9,7 +9,7 @@ connectDb();
 
 export async function DELETE(request: NextRequest) {
   try {
-    console.log("Delete request params", request.nextUrl.searchParams);
+    // console.log("Delete request params", request.nextUrl.searchParams);
 
     const empId = request.nextUrl.searchParams.get("id") as string | undefined;
     if (!empId) {

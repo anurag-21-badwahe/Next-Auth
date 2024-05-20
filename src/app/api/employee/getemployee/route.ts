@@ -8,7 +8,7 @@ connectDb();
 export async function GET(request: NextRequest) {
     try {
         const userId = await getDataFromToken(request);
-        console.log("Create User Id At Get",userId);  
+        // console.log("Create User Id At Get",userId);  
         if(!userId){
             return NextResponse.json({ error: "User Not Authorize" }, { status: 404 });
         }

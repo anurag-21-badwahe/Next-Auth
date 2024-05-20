@@ -44,7 +44,8 @@ export default function LoginPage() {
       alert("Login Successfull")
       router.push("/");
     } catch (error: any) {
-      console.error("Login failed", error.message);
+      // console.error("Login failed", error.message);
+      alert("User Not found")
       toast.error(error.message);
     } finally {
       setLoading(false);

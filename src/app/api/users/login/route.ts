@@ -13,14 +13,14 @@ export async function POST(request:NextRequest){
         const reqBody = await request.json();
         const{email,password} = reqBody;
 
-        console.log(reqBody);
+        // console.log(reqBody);
 
         const user = await User.findOne({email});
 
         if(!user){
             return NextResponse.json({error:"User Does not exists"},{status:500})
         }
-        console.log("User Exits");
+        // console.log("User Exits");
 
         const passwordCompare = bcryptjs.compare(password,user.password);
 

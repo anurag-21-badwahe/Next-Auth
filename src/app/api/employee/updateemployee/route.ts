@@ -53,41 +53,4 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// import { NextRequest, NextResponse } from 'next/server';
-// import { connectDb } from '@/dbConfig/dbConfig';
-// import Employee from '@/models/employeeModel';
 
-// connectDb();
-
-// export async function POST(request: NextRequest) {
-//   try {
-//     // Parse the request body
-//     const reqBody = await request.json();
-//     const { email, ...updates } = reqBody;
-
-//     // Find the employee by email
-//     const employee = await Employee.findOne({ email });
-
-//     // If employee is not found, return 404 error
-//     if (!employee) {
-//       return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
-//     }
-
-//     // Update employee fields
-//     Object.assign(employee, updates);
-
-//     // Save the updated employee
-//     const updatedEmployee = await employee.save();
-
-//     // Return success response
-//     return NextResponse.json({
-//       message: 'Employee updated successfully',
-//       success: true,
-//       updatedEmployee,
-//     });
-//   } catch (error: any) {
-//     // Handle errors
-//     console.error('Error updating employee:', error);
-//     return NextResponse.json({ error: error.message }, { status: 500 });
-//   }
-// }
